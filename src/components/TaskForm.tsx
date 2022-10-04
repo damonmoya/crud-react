@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState, useRef } from 'react';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import { Task } from '../interfaces/Task';
 
@@ -16,6 +16,7 @@ const initialState = {
 export default function TaskForm({addANewTask}: Props) {
 
   const [task, setTask] = useState(initialState);
+  const titleRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = ({
     target: { name, value }, 
@@ -30,6 +31,7 @@ export default function TaskForm({addANewTask}: Props) {
     e.preventDefault()
     addANewTask(task)
     setTask(initialState)
+    titleRef.current?.focus()
   }
 
   return (
@@ -45,6 +47,8 @@ export default function TaskForm({addANewTask}: Props) {
             onChange={handleInputChange}
             value={task.title}
             required
+            autoFocus
+            ref={titleRef}
           />
 
           <textarea 

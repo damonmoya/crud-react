@@ -4,6 +4,7 @@ import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 import { Task } from './interfaces/Task';
 import logo from './logo.svg';
+import {v4} from 'uuid';
 
 interface Props {
   title?: string;
@@ -13,14 +14,16 @@ export function App({title}: Props) {
 
   const [tasks, setTasks] = useState<Task[]>([
     {
-      id: 1,
+      id: v4(),
       title: 'Task 1',
       description: 'Task 1 description',
       completed: false
     }
   ]);
 
-  const addANewTask = (task: Task) => setTasks([...tasks, task]);
+  const addANewTask = (task: Task) => setTasks([...tasks, {...task, id: v4(), completed: false}]);
+
+  const deleteATask = (id: string) => setTasks(tasks.filter((task) => task.id !== id));
 
   return (
     <div className="App">
@@ -43,7 +46,7 @@ export function App({title}: Props) {
 
           <div className="col-md-8">
             <div className="row">
-              <TaskList tasks={tasks} />
+              <TaskList tasks={tasks} deleteATask={deleteATask} />
             </div>
           </div>
         </div>
