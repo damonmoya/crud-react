@@ -9,7 +9,7 @@ export default function TaskList({tasks}: Props) {
   return (
     <>  
       {tasks.map((task) => (
-        <div className="col-md-4">
+        <div className="col-md-4 pb-2">
           <TaskCard task={task} />
         </div>
       ))}

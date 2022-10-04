@@ -20,6 +20,8 @@ export function App({title}: Props) {
     }
   ]);
 
+  const addANewTask = (task: Task) => setTasks([...tasks, task]);
+
   return (
     <div className="App">
 
@@ -36,7 +38,7 @@ export function App({title}: Props) {
 
         <div className="row">
           <div className="col-md-4">
-            <TaskForm></TaskForm>
+            <TaskForm addANewTask={addANewTask} />
           </div>
 
           <div className="col-md-8">

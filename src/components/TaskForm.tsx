@@ -1,15 +1,50 @@
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { BsPlusCircleFill } from 'react-icons/bs';
+import { Task } from '../interfaces/Task';
 
-export default function TaskForm() {
+interface Props {
+  addANewTask: (task: Task) => void;
+}
+
+type handleInputChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
+
+const initialState = {
+  title: '',
+  description: ''
+}
+
+export default function TaskForm({addANewTask}: Props) {
+
+  const [task, setTask] = useState(initialState);
+
+  const handleInputChange = ({
+    target: { name, value }, 
+  }: handleInputChange) => {
+    setTask({
+      ...task,
+      [name]: value
+    });  
+  };
+
+  const handleNewTask = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    addANewTask(task)
+    setTask(initialState)
+  }
+
   return (
     <div className="card card-body">
         <h1>Add Task</h1>
 
-        <form>
+        <form onSubmit={handleNewTask}>
           <input 
             type="text" 
+            name="title"
             className="form-control mb-3" 
             placeholder="Title" 
+            onChange={handleInputChange}
+            value={task.title}
+            required
           />
 
           <textarea 
@@ -17,6 +52,9 @@ export default function TaskForm() {
             rows={2} 
             placeholder="Description" 
             className="form-control mb-3"
+            onChange={handleInputChange}
+            value={task.description}
+            required
           ></textarea>
 
         <button className="btn btn-primary">
